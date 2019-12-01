@@ -6,5 +6,6 @@
 
 int main() {
   System system;
+  // system.Cpu().Utilization();
   NCursesDisplay::Display(system);
 }
