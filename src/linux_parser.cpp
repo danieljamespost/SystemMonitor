@@ -4,6 +4,7 @@
 #include <unistd.h>
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -144,6 +145,36 @@ vector<string> LinuxParser::CpuUtilization() {
           irqStr,  softirqStr, stealStr,  guestStr, guestNiceStr};
 }
 
+vector<string> LinuxParser::CpuUtilization(int pid) {
+  string utime, stime, cutime, cstime, starttime;
+  string line;
+
+  std::ostringstream filename;
+  filename << kProcDirectory << pid << kStatFilename;
+
+  std::ifstream stream(filename.str());
+  if (stream.is_open()) {
+    while (std::getline(stream, line)) {
+      std::istringstream linestream(line);
+
+      std::vector<std::string> tokens;
+      std::string token;
+      std::istringstream tokenStream(line);
+      while (std::getline(tokenStream, token, ' ')) {
+        tokens.push_back(token);
+      }
+
+      utime = tokens[15];
+      stime = tokens[16];
+      cutime = tokens[17];
+      cstime = tokens[18];
+      starttime = tokens[23];
+    }
+  }
+
+  return {utime, stime, cutime, cstime, starttime};
+}
+
 int LinuxParser::TotalProcesses() {
   string line, key, value;
   string totalProcString;
@@ -164,7 +195,6 @@ int LinuxParser::TotalProcesses() {
   return totalProc;
 }
 
-// TODO: Read and return the number of running processes
 int LinuxParser::RunningProcesses() {
   string line, key, value;
   string runningProcString;
@@ -195,11 +225,54 @@ string LinuxParser::Ram(int pid [[maybe_unused]]) { return string(); }
 
 // TODO: Read and return the user ID associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Uid(int pid [[maybe_unused]]) { return string(); }
+string LinuxParser::Uid(int pid) {
+  string line, key, value;
+  string uid;
 
-// TODO: Read and return the user associated with a process
-// REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::User(int pid [[maybe_unused]]) { return string(); }
+  std::ostringstream filename;
+  filename << kProcDirectory << pid << kStatusFilename;
+
+  std::ifstream stream(filename.str());
+  if (stream.is_open()) {
+    while (std::getline(stream, line)) {
+      std::istringstream linestream(line);
+      linestream >> key >> value;
+      if (key == "Uid:") {
+        uid = value;
+      }
+    }
+  }
+
+  return uid;
+}
+
+string LinuxParser::User(int pid) {
+  string userId = Uid(pid);
+  string line, name, password, uid;
+  string user;
+  std::ifstream stream(kPasswordPath);
+  if (stream.is_open()) {
+    while (std::getline(stream, line)) {
+      std::istringstream linestream(line);
+
+      std::vector<std::string> tokens;
+      std::string token;
+      std::istringstream tokenStream(line);
+      while (std::getline(tokenStream, token, ':')) {
+        tokens.push_back(token);
+      }
+
+      name = tokens[0];
+      uid = tokens[2];
+      if (uid == userId) {
+        user = name;
+        break;
+      }
+    }
+  }
+
+  return user;
+}
 
 // TODO: Read and return the uptime of a process
 // REMOVE: [[maybe_unused]] once you define the function

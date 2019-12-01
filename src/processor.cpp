@@ -6,10 +6,10 @@
 
 #include "linux_parser.h"
 
-// TODO: Return the aggregate CPU utilization
 float Processor::Utilization() {
   std::vector<std::string> cpuData = LinuxParser::CpuUtilization();
 
+  // new data
   float user = std::stof(cpuData[0]);
   float nice = std::stof(cpuData[1]);
   float system = std::stof(cpuData[2]);
@@ -21,21 +21,19 @@ float Processor::Utilization() {
   float guest = std::stof(cpuData[8]);
   float guestNice = std::stof(cpuData[9]);
 
+  // calculate cpu utilization
   float prevIdleTotal = idle_ + iowait_;
   float idleTotal = idle + iowait;
-
   float prevNonIdleTotal = user_ + nice_ + system_ + irq_ + softirq_ + steal_;
   float nonIdleTotal = user + nice + system + irq + softirq + steal;
-
   float prevTotal = prevIdleTotal + prevNonIdleTotal;
   float total = idleTotal + nonIdleTotal;
-
-  //// differentiate : actual value minus the previous one;
   float totald = total - prevTotal;
   float idled = idleTotal - prevIdleTotal;
 
   float cpuPercentage = (totald - idled) / totald;
 
+  // persist current values
   user_ = user;
   nice_ = nice;
   system_ = system;

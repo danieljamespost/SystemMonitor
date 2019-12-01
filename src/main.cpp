@@ -1,11 +1,13 @@
 #include <iostream>
 
-#include "format.h"
 #include "ncurses_display.h"
+#include "process.h"
 #include "system.h"
 
 int main() {
   System system;
-  // system.Cpu().Utilization();
-  NCursesDisplay::Display(system);
+  for (Process proc : system.Processes()) {
+    std::cout << proc.Pid() << ": " << proc.CpuUtilization() << "\n";
+  }
+  // NCursesDisplay::Display(system);
 }
