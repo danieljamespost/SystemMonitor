@@ -215,16 +215,43 @@ int LinuxParser::RunningProcesses() {
   return runningProc;
 }
 
-// TODO: Read and return the command associated with a process
-// REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Command(int pid [[maybe_unused]]) { return string(); }
+string LinuxParser::Command(int pid) {
+  string line, command;
 
-// TODO: Read and return the memory used by a process
-// REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Ram(int pid [[maybe_unused]]) { return string(); }
+  std::ostringstream filename;
+  filename << kProcDirectory << pid << kCmdlineFilename;
 
-// TODO: Read and return the user ID associated with a process
-// REMOVE: [[maybe_unused]] once you define the function
+  std::ifstream stream(filename.str());
+  if (stream.is_open()) {
+    while (std::getline(stream, line)) {
+      std::istringstream linestream(line);
+      linestream >> command;
+    }
+  }
+
+  return command;
+}
+
+string LinuxParser::Ram(int pid) {
+  string line, key, value;
+  string ramStr;
+
+  std::ostringstream filename;
+  filename << kProcDirectory << pid << kStatusFilename;
+
+  std::ifstream stream(filename.str());
+  if (stream.is_open()) {
+    while (std::getline(stream, line)) {
+      std::istringstream linestream(line);
+      linestream >> key >> value;
+      if (key == "VmSize:") {
+        ramStr = value;
+      }
+    }
+  }
+  return ramStr;
+}
+
 string LinuxParser::Uid(int pid) {
   string line, key, value;
   string uid;
@@ -274,6 +301,28 @@ string LinuxParser::User(int pid) {
   return user;
 }
 
-// TODO: Read and return the uptime of a process
-// REMOVE: [[maybe_unused]] once you define the function
-long LinuxParser::UpTime(int pid [[maybe_unused]]) { return 0; }
+long LinuxParser::UpTime(int pid) {
+  string starttimeStr;
+  string line;
+
+  std::ostringstream filename;
+  filename << kProcDirectory << pid << kStatFilename;
+
+  std::ifstream stream(filename.str());
+  if (stream.is_open()) {
+    while (std::getline(stream, line)) {
+      std::istringstream linestream(line);
+
+      std::vector<std::string> tokens;
+      std::string token;
+      std::istringstream tokenStream(line);
+      while (std::getline(tokenStream, token, ' ')) {
+        tokens.push_back(token);
+      }
+
+      starttimeStr = tokens[23];
+    }
+  }
+
+  return stol(starttimeStr);
+}

@@ -2,6 +2,7 @@ FROM ubuntu:latest
  
 RUN apt-get -y update && apt-get install -y
 RUN apt install -y build-essential \
+        gdb \
         cmake \
         clang-format \
         libncurses5-dev \
