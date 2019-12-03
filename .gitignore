@@ -1,6 +1,8 @@
+**/.idea
 monitor
 a.out
 settings.json
 *.o
 build/*
 *.json
+cmake-build-debug/
