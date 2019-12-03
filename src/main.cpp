@@ -7,6 +7,7 @@
 int main() {
   System system;
   // for (Process proc : system.Processes()) {
+  // std::cout << proc.Ram() << ", ";
   // std::cout << "pid: " << proc.Pid() << "\n";
   // std::cout << "user: " << proc.User() << "\n";
   // std::cout << "command: " << proc.Command() << "\n";
@@ -15,6 +16,7 @@ int main() {
   // std::cout << "uptime: " << proc.UpTime() << "\n";
   // std::cout << "\n\n";
   //}
+  // std::cout << "\n\n";
   // bool isGreater = system.Processes()[0] < system.Processes()[1];
   // std::cout << "greater: " << isGreater << "\n\n";
   NCursesDisplay::Display(system);

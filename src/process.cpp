@@ -28,16 +28,8 @@ void Process::init() {
 int Process::Pid() { return pid_; }
 
 float Process::CpuUtilization() {
-  vector<string> cpuData = LinuxParser::CpuUtilization(pid_);
+  init();
   long uptime = LinuxParser::UpTime();
-  // std::cout << "utime: " << cpuData[0] << "\n";
-
-  hz_ = sysconf(_SC_CLK_TCK);
-  utime_ = std::stof(cpuData[0]);
-  stime_ = std::stof(cpuData[1]);
-  cutime_ = std::stof(cpuData[2]);
-  cstime_ = std::stof(cpuData[3]);
-  starttime_ = std::stof(cpuData[4]);
 
   float total_time = utime_ + stime_;
   total_time = total_time + cutime_ + cstime_;
@@ -63,10 +55,34 @@ string Process::User() {
   return user_;
 }
 
-long int Process::UpTime() { return starttime_; }
+long int Process::UpTime() {
+  return LinuxParser::UpTime(pid_);
+  // return starttime_;
+}
 
 bool Process::operator<(Process const& a) const {
   int aRam = std::stoi(LinuxParser::Ram(a.pid_));
-  int ram = std::stoi(LinuxParser::Ram(pid_));
+  int ram = std::stoi(LinuxParser::Ram(this->pid_));
   return ram < aRam;
+}
+
+bool Process::operator>(Process const& a) const {
+  int aRam = std::stoi(LinuxParser::Ram(a.pid_));
+  int ram = std::stoi(LinuxParser::Ram(pid_));
+  return ram > aRam;
+}
+
+bool Process::operator=(Process const& a) const {
+  int aRam = std::stoi(LinuxParser::Ram(a.pid_));
+  int ram = std::stoi(LinuxParser::Ram(this->pid_));
+  return ram == aRam;
+}
+
+bool Process::operator<=(Process const& a) const {
+  int aRam = std::stoi(LinuxParser::Ram(a.pid_));
+  int ram = std::stoi(LinuxParser::Ram(this->pid_));
+  if ((ram < aRam) || (ram == aRam)) {
+    return true;
+  }
+  return ram == aRam;
 }

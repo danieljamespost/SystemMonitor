@@ -107,24 +107,7 @@ long LinuxParser::UpTime() {
   return totalTime;
 }
 
-// TODO: Read and return the number of jiffies for the system
-long LinuxParser::Jiffies() { return 0; }
-
-// TODO: Read and return the number of active jiffies for a PID
-// REMOVE: [[maybe_unused]] once you define the function
-long LinuxParser::ActiveJiffies(int pid [[maybe_unused]]) { return 0; }
-
-// TODO: Read and return the number of active jiffies for the system
-long LinuxParser::ActiveJiffies() { return 0; }
-
-// TODO: Read and return the number of idle jiffies for the system
-long LinuxParser::IdleJiffies() { return 0; }
-
 vector<string> LinuxParser::CpuUtilization() {
-  // time units in USER_HZ (typically hundredths of a second)
-  // user  nice system  idle    iowait irq  softirq  steal  guest  guest_nice
-  // 49637 0    92930   9236181 4743   0    3915     0      0      0
-
   string line, key;
   string userStr, niceStr, systemStr, idleStr, iowaitStr, irqStr, softirqStr,
       stealStr, guestStr, guestNiceStr;

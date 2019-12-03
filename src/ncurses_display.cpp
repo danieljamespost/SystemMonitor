@@ -56,6 +56,12 @@ void NCursesDisplay::DisplaySystem(System& system, WINDOW* window) {
 
 void NCursesDisplay::DisplayProcesses(std::vector<Process>& processes,
                                       WINDOW* window, int n) {
+  n = processes.size();
+  if (n > 10) {
+    n = 10;
+  }
+  werase(window);
+
   int row{0};
   int const pid_column{2};
   int const user_column{9};
@@ -89,11 +95,6 @@ void NCursesDisplay::Display(System& system, int n) {
   noecho();       // do not print input values
   cbreak();       // terminate ncurses on ctrl + c
   start_color();  // enable color
-
-  n = system.Processes().size();
-  if (n > 10) {
-    n = 10;
-  }
 
   int x_max{getmaxx(stdscr)};
   WINDOW* system_window = newwin(9, x_max - 1, 0, 0);
