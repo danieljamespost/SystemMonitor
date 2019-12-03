@@ -5,6 +5,9 @@
 
 #include "linux_parser.h"
 
+std::vector<Process>& SystemProcesses::All() {
+    return processes_;
+}
 void SystemProcesses::Update() {
   running_ = LinuxParser::RunningProcesses();
   total_ = LinuxParser::TotalProcesses();
@@ -13,7 +16,8 @@ void SystemProcesses::Update() {
     Process process(pid);
     processes_.push_back(process);
   }
-  std::sort(processes_.begin(), processes_.end(), [](auto a, auto b) {
-    return a.CpuUtilization() > b.CpuUtilization();
-  });
+  // this works locally but does not work in udacity workspace
+  // std::sort(processes_.begin(), processes_.end(), [](auto a, auto b) {
+  //     return a.CpuUtilization() > b.CpuUtilization();
+  // });
 }

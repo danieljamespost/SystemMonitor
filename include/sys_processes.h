@@ -9,7 +9,7 @@
 class SystemProcesses {
  public:
   SystemProcesses() { Update(); }
-  std::vector<Process>& All() { return processes_; }
+  std::vector<Process>& All();
   int Total() { return total_; };
   int Running() { return running_; };
   void Update();
