@@ -1,10 +1,8 @@
-
 #include "process.h"
 
 #include <unistd.h>
 
 #include <cctype>
-#include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -76,4 +74,3 @@ bool Process::operator=(Process const& a) const {
   int ram = std::stoi(LinuxParser::Ram(pid_));
   return ram == aRam;
 }
-

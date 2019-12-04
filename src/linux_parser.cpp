@@ -232,6 +232,9 @@ string LinuxParser::Ram(int pid) {
       }
     }
   }
+
+  if (ramStr == "") return "0";
+
   return ramStr;
 }
 
