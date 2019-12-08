@@ -15,8 +15,6 @@ class Process {
   float CpuUtilization();
   std::string Ram();
   long int UpTime();
-  bool operator>(Process const& a) const;
-  bool operator=(Process const& a) const;
 
  private:
   void init();
@@ -28,6 +26,7 @@ class Process {
   float cutime_ = 0.0;
   float cstime_ = 0.0;
   float starttime_ = 0.0;
+  float cpu_usage_ = 0.0;
 };
 
 #endif

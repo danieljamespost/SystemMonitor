@@ -147,11 +147,11 @@ vector<string> LinuxParser::CpuUtilization(int pid) {
         tokens.push_back(token);
       }
 
-      utime = tokens[15];
-      stime = tokens[16];
-      cutime = tokens[17];
-      cstime = tokens[18];
-      starttime = tokens[23];
+      utime = tokens[13];
+      stime = tokens[14];
+      cutime = tokens[15];
+      cstime = tokens[16];
+      starttime = tokens[21];
     }
   }
 
@@ -306,7 +306,7 @@ long LinuxParser::UpTime(int pid) {
         tokens.push_back(token);
       }
 
-      starttimeStr = tokens[23];
+      starttimeStr = tokens[21];
     }
   }
 

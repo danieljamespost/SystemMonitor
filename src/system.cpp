@@ -7,8 +7,8 @@
 
 #include "linux_parser.h"
 #include "process.h"
-#include "sys_processes.h"
 #include "processor.h"
+#include "sys_processes.h"
 
 using std::size_t;
 using std::string;
