@@ -18,14 +18,14 @@ void SystemProcesses::Update() {
   char* user(getenv("USER"));
   for (int pid : LinuxParser::Pids()) {
     Process process(pid);
+
+    // if $USER is set, only show processes for that user
     if (user != NULL) {
       if (process.User() == user) {
         processes_.push_back(process);
       }
     } else {
-      if (process.User() != "root") {
-        processes_.push_back(process);
-      }
+      processes_.push_back(process);
     }
   }
 }
