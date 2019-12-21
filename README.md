@@ -1,4 +1,4 @@
-# System-Monitor
+# sysmon
 
 ![System Monitor](images/monitor.png)
 
