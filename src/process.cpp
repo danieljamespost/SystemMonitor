@@ -26,8 +26,6 @@ void Process::init() {
   starttime_ = std::stof(cpuData[4]);
 
   float total_time = utime_ + stime_;
-  // include below if adding child processes
-  // total_time = total_time + cutime_ + cstime_;
   float seconds = uptime - (starttime_ / hz_);
   float cpu_usage = 100 * ((total_time / hz_) / seconds);
   cpu_usage_ = cpu_usage;

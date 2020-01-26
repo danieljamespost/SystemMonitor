@@ -6,3 +6,4 @@ settings.json
 build/*
 *.json
 cmake-build-debug/
+tags*
