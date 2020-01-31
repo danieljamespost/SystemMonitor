@@ -4,14 +4,14 @@
 #include <string>
 
 class OS {
- public:
-  OS();
-  std::string Kernel();
-  std::string Name();
+public:
+    OS();
+    std::string Kernel();
+    std::string Name();
 
- private:
-  std::string kernel_;
-  std::string name_;
+private:
+    std::string kernel_;
+    std::string name_;
 };
 
 #endif
