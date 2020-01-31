@@ -6,9 +6,10 @@
 
 using std::string;
 
-OS::OS() {
-  kernel_ = LinuxParser::Kernel();
-  name_ = LinuxParser::OperatingSystem();
+OS::OS()
+{
+    kernel_ = LinuxParser::Kernel();
+    name_ = LinuxParser::OperatingSystem();
 }
 
 string OS::Kernel() { return kernel_; }

@@ -16,9 +16,10 @@ using std::vector;
 
 Processor& System::Cpu() { return cpu_; }
 
-vector<Process>& System::Processes() {
-  processes_.Update();
-  return processes_.All();
+vector<Process>& System::Processes()
+{
+    processes_.Update();
+    return processes_.All();
 }
 
 std::string System::Kernel() { return os_.Kernel(); }

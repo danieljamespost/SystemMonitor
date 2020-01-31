@@ -4,7 +4,8 @@
 #include "process.h"
 #include "system.h"
 
-int main() {
-  System system;
-  NCursesDisplay::Display(system);
+int main()
+{
+    System system;
+    NCursesDisplay::Display(system);
 }
